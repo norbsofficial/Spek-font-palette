@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Helmet } from "react-helmet-async";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -73,11 +73,6 @@ const Index = () => {
 
   return (
     <main ref={containerRef} className="min-h-screen relative overflow-hidden">
-      <Helmet>
-        <title>Image to Color Palette Generator</title>
-        <meta name="description" content="Upload a photo to generate a beautiful color scheme instantly." />
-        <link rel="canonical" href="/" />
-      </Helmet>
 
       <div className="absolute inset-0 bg-gradient-hero opacity-60" aria-hidden="true" />
 
