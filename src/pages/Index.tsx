@@ -31,9 +31,8 @@ const Index = () => {
     const url = URL.createObjectURL(file);
     setImageUrl(url);
     try {
-      const mod = await import("node-vibrant");
-      const V: any = (mod as any).default ?? mod;
-      const paletteResult = await V.from(url).maxColorCount(8).getPalette();
+      const { Vibrant } = await import("node-vibrant/browser");
+      const paletteResult = await Vibrant.from(url).maxColorCount(8).getPalette();
       const swatches = Object.values(paletteResult).filter(Boolean) as any[];
       const hexes = swatches.map((s: any) => (typeof s.getHex === "function" ? s.getHex() : s.hex)).filter(Boolean);
       // De-duplicate and keep top 6
