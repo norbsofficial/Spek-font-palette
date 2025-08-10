@@ -103,3 +103,35 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  :root {
+    /* Brand extensions and premium finishes */
+    --brand: 262 83% 58%;
+    --brand-foreground: 0 0% 100%;
+    --brand-glow: 262 83% 65%;
+    --gradient-hero: radial-gradient(600px circle at var(--spot-x,50%) var(--spot-y,50%), hsl(var(--brand) / 0.18), transparent 60%);
+    --shadow-elevated: 0 20px 40px -20px hsl(var(--brand) / 0.25);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --brand: 262 83% 70%;
+    --brand-foreground: 222.2 47.4% 11.2%;
+    --brand-glow: 262 83% 76%;
+    --gradient-hero: radial-gradient(600px circle at var(--spot-x,50%) var(--spot-y,50%), hsl(var(--brand) / 0.22), transparent 60%);
+    --shadow-elevated: 0 20px 40px -20px hsl(var(--brand) / 0.35);
+  }
+}
+
+@layer utilities {
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+  .elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+  .smooth {
+    transition: var(--transition-smooth);
+  }
+}
