@@ -6,6 +6,18 @@ import { cn } from "@/lib/utils"
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
 
+// Security: allow only safe CSS var names and color values
+function isSafeCssColor(input: unknown): input is string {
+  if (typeof input !== "string") return false
+  const hex = /^#(?:[A-Fa-f0-9]{3}){1,2}$/
+  const func = /^(?:rgb|rgba|hsl|hsla)\([^)]{1,100}\)$/
+  const cssVar = /^var\(--[a-zA-Z0-9_-]+\)$/
+  return hex.test(input) || func.test(input) || cssVar.test(input)
+}
+function isSafeVarName(name: string): boolean {
+  return /^[a-zA-Z0-9_-]+$/.test(name)
+}
+
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
@@ -74,29 +86,26 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null
   }
 
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-  .map(([key, itemConfig]) => {
-    const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-      itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
-  })
-  .join("\n")}
+  const css = Object.entries(THEMES)
+    .map(([theme, prefix]) => {
+      const lines = colorConfig
+        .map(([key, itemConfig]) => {
+          if (!isSafeVarName(key)) return null
+          const color =
+            itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
+            itemConfig.color
+          if (!color || !isSafeCssColor(color)) return null
+          return `  --color-${key}: ${color};`
+        })
+        .filter(Boolean)
+        .join("\n")
+      return `${prefix} [data-chart=${id}] {\n${lines}\n}`
+    })
+    .join("\n")
+
+  return <style>{css}</style>
 }
-`
-          )
-          .join("\n"),
-      }}
-    />
-  )
-}
+
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
@@ -217,8 +226,8 @@ const ChartTooltipContent = React.forwardRef<
                           )}
                           style={
                             {
-                              "--color-bg": indicatorColor,
-                              "--color-border": indicatorColor,
+                              "--color-bg": isSafeCssColor(indicatorColor as any) ? indicatorColor : "transparent",
+                              "--color-border": isSafeCssColor(indicatorColor as any) ? indicatorColor : "transparent",
                             } as React.CSSProperties
                           }
                         />
@@ -300,7 +309,7 @@ const ChartLegendContent = React.forwardRef<
                 <div
                   className="h-2 w-2 shrink-0 rounded-[2px]"
                   style={{
-                    backgroundColor: item.color,
+                    backgroundColor: isSafeCssColor(item.color as any) ? (item.color as string) : undefined,
                   }}
                 />
               )}

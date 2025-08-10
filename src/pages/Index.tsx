@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import PaletteSwatch from "@/components/PaletteSwatch";
 import { toast } from "sonner";
+import { sanitizeHex } from "@/lib/colors";
+
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 
 const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -27,14 +30,40 @@ const Index = () => {
     return () => node.removeEventListener("mousemove", handleMove);
   }, []);
 
+  // Revoke object URLs on unmount or when imageUrl changes
+  useEffect(() => {
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+    };
+  }, [imageUrl]);
+
   const handleFile = async (file: File) => {
-    const url = URL.createObjectURL(file);
-    setImageUrl(url);
+    if (!file.type.startsWith("image/") || !ALLOWED_IMAGE_TYPES.has(file.type)) {
+      toast.error("Unsupported image type. Use JPG, PNG, or WEBP.");
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      toast.error("File is too large. Max 10MB.");
+      return;
+    }
+
     try {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
+      const url = URL.createObjectURL(file);
+      setImageUrl(url);
+
       const { Vibrant } = await import("node-vibrant/browser");
       const paletteResult = await Vibrant.from(url).maxColorCount(8).getPalette();
       const swatches = Object.values(paletteResult).filter(Boolean) as any[];
-      const hexes = swatches.map((s: any) => (typeof s.getHex === "function" ? s.getHex() : s.hex)).filter(Boolean);
+      const hexes = swatches
+        .map((s: any) => (typeof s.getHex === "function" ? s.getHex() : s.hex))
+        .filter(Boolean)
+        .map((h: string) => sanitizeHex(h))
+        .filter(Boolean) as string[];
       // De-duplicate and keep top 6
       const unique = Array.from(new Set(hexes)).slice(0, 6);
       setPalette(unique);
@@ -63,6 +92,9 @@ const Index = () => {
   };
 
   const clearAll = () => {
+    if (imageUrl) {
+      URL.revokeObjectURL(imageUrl);
+    }
     setImageUrl(null);
     setPalette([]);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -86,7 +118,7 @@ const Index = () => {
         <Card className="bg-card/80 backdrop-blur">
           <CardHeader>
             <CardTitle>Upload your image</CardTitle>
-            <CardDescription>JPG, PNG up to 10MB. Drag & drop or choose a file.</CardDescription>
+            <CardDescription>JPG, PNG, WEBP up to 10MB. Drag & drop or choose a file.</CardDescription>
           </CardHeader>
           <CardContent>
             <div
@@ -100,7 +132,7 @@ const Index = () => {
               <Input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/png,image/jpeg,image/webp"
                 onChange={onInputChange}
                 className="hidden"
                 aria-hidden
