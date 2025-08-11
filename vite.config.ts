@@ -5,7 +5,5 @@ import path from "path";
 export default defineConfig({
   base: "/Spek-font-palette/",
   plugins: [react()],
-  resolve: {
-    alias: { "@": path.resolve(__dirname, "./src") },
-  },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } }, // ok if you added this
 });
