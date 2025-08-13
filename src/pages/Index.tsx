@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import PaletteSwatch from "@/components/PaletteSwatch";
+import Logo from "@/components/Logo";
 import { toast } from "sonner";
 import { sanitizeHex } from "@/lib/colors";
 
@@ -103,12 +104,15 @@ const Index = () => {
   const gradientSuggestion = palette.length >= 2 ? `linear-gradient(135deg, ${palette[0]}, ${palette[1]})` : undefined;
 
   return (
-    <main ref={containerRef} className="min-h-screen relative overflow-hidden">
+    <main ref={containerRef} className="min-h-screen relative overflow-hidden pt-20">
 
       <div className="absolute inset-0 bg-gradient-hero opacity-60" aria-hidden="true" />
 
       <section className="relative container mx-auto py-16 md:py-24">
         <header className="text-center mb-10 md:mb-14">
+          <div className="flex justify-center mb-6">
+            <Logo size="lg" />
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Image to Color Palette Generator</h1>
           <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">
             Upload an image and get a polished color scheme with copy-ready HEX codes, instantly.
