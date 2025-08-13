@@ -101,7 +101,7 @@ Thank you for your interest in contributing to Spek Font Palette! This document 
 ## 📞 Getting Help
 
 - Check existing issues and discussions
-- Join our community discussions
+- you can reach out about anything at nbutare@gmail.com
 - Ask questions in issues with the "question" label
 
 Thank you for contributing to Spek Font Palette! 🎨
