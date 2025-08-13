@@ -1,8 +1,23 @@
 {
-  "name": "vite_react_shadcn_ts",
-  "private": true,
-  "version": "0.0.0",
+  "name": "spek-font-palette",
+  "description": "A modern font palette generator and color scheme tool built with React, TypeScript, and Tailwind CSS",
+  "version": "1.0.0",
+  "private": false,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/spek-font-palette.git"
+  },
+  "keywords": [
+    "font-palette",
+    "color-schemes",
+    "design-tools",
+    "react",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
