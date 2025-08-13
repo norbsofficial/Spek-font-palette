@@ -1,9 +1,8 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: "/Spek-font-palette/", // ✅ matches repo name exactly, trailing slash
   plugins: [react()],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
-});
+  base: '/Spek-font-palette/', // Add this line - must match your repository name
+})
