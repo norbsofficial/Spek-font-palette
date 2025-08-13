@@ -15,7 +15,7 @@ We take the security of Spek Font Palette seriously. If you believe you have fou
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please report them via email to [INSERT_SECURITY_EMAIL].
+Instead, please report them via email to nbutare@gmail.com.
 
 You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
 
@@ -76,4 +76,4 @@ Security updates will be released as patch versions (e.g., 1.0.1, 1.0.2) and wil
 
 ## Contact
 
-If you have any questions about this security policy, please contact us at [INSERT_CONTACT_EMAIL].
+If you have any questions about this security policy, please contact us at nbutare@gmail.com.
