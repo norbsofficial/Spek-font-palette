@@ -33,7 +33,7 @@ const PaletteSwatch = ({ hex, label }: PaletteSwatchProps) => {
             <span className="text-muted-foreground text-xs">{label}</span>
           ) : null}
         </div>
-        <Button variant="secondary" size="sm" onClick={copy} aria-label={`Copy ${hex}`}>
+        <Button variant="secondary" size="sm" onClick={copy} aria-label={`Copy ${safeHex}`}>
           Copy
         </Button>
       </div>
