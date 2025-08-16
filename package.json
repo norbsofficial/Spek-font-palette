@@ -6,7 +6,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/norbsofficial/spek-font-palette.git"
+    "url": "https://github.com/yourusername/spek-font-palette.git"
   },
   "keywords": [
     "font-palette",
@@ -16,10 +16,9 @@
     "typescript",
     "tailwindcss"
   ],
-  "author": "Norbert Butare",
+  "author": "Your Name",
   "license": "MIT",
   "scripts": {
-    "deploy": "gh-pages -d dist"
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
@@ -97,5 +96,9 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^5.4.19"
+  }{
+  "scripts": {
+    "deploy": "gh-pages -d dist"
   }
+}
 }
