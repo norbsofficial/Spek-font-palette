@@ -6,4 +6,7 @@ export default defineConfig({
   base: "/Spek-font-palette/", // ✅ matches repo name exactly, trailing slash
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  server: {
+    port: 8080
+  },
 });
